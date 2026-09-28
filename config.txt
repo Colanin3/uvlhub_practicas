@@ -1,0 +1,5 @@
+cat << 'EOF' > config.txt
+LOG_LEVEL = INFO
+PORT = 8080
+TIMEOUT = 5000
+EOF
