@@ -27,11 +27,6 @@ jobs:
           --health-timeout=5s
           --health-retries=3
 
-    strategy: #modificacion 2
-      fail-fast: false
-      matrix:
-        python-version: ['3.13', '3.14']
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v5
@@ -46,15 +41,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install -e ./rosemary
-
-    - name: Check outdated dependencies #modificacion 1
-      run: 
-        pip list --outdated
-
-    - name: Security audit with pip-audit #modificacion 3
-      run: |
-        pip install pip-audit
-        pip-audit || true
 
     - name: Run tests with coverage
       run: |
@@ -72,3 +58,6 @@ jobs:
       run: bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage.xml
       env:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+
+    - name: Check new dependencies version
+      run: pip list --outdated
